@@ -1,0 +1,54 @@
+#header
+{
+background-color: blue;
+
+
+}
+
+body {
+
+
+    background-color: blue;
+
+}
+
+#container {
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+
+background-color:white;
+/* text-align: center; */
+
+
+}
+#nav{
+    float: left;
+    width:180px;
+}
+#footer{
+    clear:both;
+}
+#nav .selected{
+
+
+    color:blue;
+}
+a{
+
+    text-decoration: none;
+}
+#nav ul{
+    list-style-type: none;
+    padding: 0;
+}
+#footer{
+
+
+    clear:both;
+    padding:10px;
+    background-color: grey;
+    color:white;
+    text-align: right;
+}
