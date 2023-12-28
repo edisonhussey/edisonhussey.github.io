@@ -1,70 +1,47 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // Get the moving image element
-    var movingImage = document.getElementById("movingImage");
+// document.addEventListener("DOMContentLoaded", function () {
+//     var movingImage = document.getElementById("movingImage");
 
-    // Set initial position
-    var positionX = 25; // Initial X position
-    var positionY = 25; // Initial Y position
 
-    // Set movement speed
-    var speedX = 1; // Horizontal speed
-    var speedY = 1; // Vertical speed
+//     var positionX = 25; 
+//     var positionY = 25; 
 
-    // Set update interval (in milliseconds)
-    var updateInterval = 25;
+//     var speedX = 1; 
+//     var speedY = 1; 
 
-    // Update image position at regular intervals
-    document.onkeydown = function (e) {
-        e = e || window.event;
-        switch (e.keyCode) {
-            case 37: // left arrow
-                speedX = -5;
-                speedY = 0;
-                break;
-            case 38: // up arrow
-                speedX = 0;
-                speedY = -5;
-                break;
-            case 39: // right arrow
-                speedX = 5;
-                speedY = 0;
-                break;
-            case 40: // down arrow
-                speedX = 0;
-                speedY = 5;
-                break;
-        }
-    };
-    setInterval(function () {
-        // document.onkeydown = checkKey;
+//     var updateInterval = 25;
+
+//     document.onkeydown = function (e) {
+//         e = e || window.event;
+//         switch (e.keyCode) {
+//             case 37: 
+//                 speedX = -5;
+//                 speedY = 0;
+//                 break;
+//             case 38: 
+//                 speedX = 0;
+//                 speedY = -5;
+//                 break;
+//             case 39: 
+//                 speedX = 5;
+//                 speedY = 0;
+//                 break;
+//             case 40:
+//                 speedX = 0;
+//                 speedY = 5;
+//                 break;
+//         }
+//     };
+//     setInterval(function () {
+
         
-        // // Update X and Y positions
-        // function checkKey(e) {
-        //     e = e || window.event;
-        //     if (e.keyCode == '37') {
-        //         // up arrow
-        //         speedX=-1;
-        //     }
-        //     elif (e.keyCode=='38')
-        //     {speedY=-1}
-        //     elif(e.keyCode=='39')
-        //     {speedX=1}
-        //     elif(e.keyCode='40')
-        //     {speedY=1}
-        // }
-        
-        positionX += speedX;
-        positionY += speedY;
+//         positionX += speedX;
+//         positionY += speedY;
 
-        // Apply the new position to the image
-        movingImage.style.left = positionX + "px";
-        movingImage.style.top = positionY + "px";
+//         movingImage.style.left = positionX + "px";
+//         movingImage.style.top = positionY + "px";
 
-        // Check boundaries (optional)
-        // Add conditions to change direction if the image reaches certain boundaries
-
-    }, updateInterval);
-});
+//     }, updateInterval);
+// });
 
 // document.addEventListener("mousedown", myFunction);
 //     function myFunction(){
@@ -81,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
 //     }
 // }
 // )
+///////////
 
 var pressedKeys=""
 let counter=0
@@ -126,15 +104,170 @@ document.addEventListener("keydown",function(e){
 
 
 });
-
+let x = 1;
+let y = 1;
+let z = 1;
 setInterval(() => {
-    // document.getElementById("time").innerHTML=Math.floor((new Date().getTime()-begin)/1000).toString()+" Seconds";
+
     let gg=((new Date().getTime()-begin)/1000).toString();
     document.getElementById("time").innerHTML=gg
 
-    // document.getElementById("time").innerHTML=Math.floor((new Date().getTime()-begin)/10).toString()+" Seconds";
+
+    let myElement=document.getElementById('cave');
+
+    let sigma = 10;
+    let rho = 28;
+    let beta = 8 / 3;
+
+    let dx = sigma * (y - x);
+    let dy = x * (rho - z) - y;
+    let dz = x * y - beta * z;
+
+    x += dx * 0.01;
+    y += dy * 0.01;
+    z += dz * 0.01;
+
+    // Update the element position
+    myElement.style.left = `${500 + 10*x}px`;
+    myElement.style.top = `${300 + 10*y}px`;
+    console.log('x:', x, 'y:', y, 'z:', z);
+
+
+
+    myElement.style.transform=`rotate(${600*Math.sin(4*gg)}deg)`;
+    // myElement.style.left=`${gg*50}px`
+    // myElement.style.transform=`translate(${10 * gg}px, ${80 * Math.sin(gg)}px)`
+
     
-}, 26);
+}, 10);
+
+//////////////
+
+
+// setInterval(() => {
+//     let myElement=document.getElementById('cave');
+//     let content=myElement.innerHTML
+//     myElement.style.transform='rotate(deg)'
+
+// }, (1000));
+
+
+
+
+const canvas = document.querySelector('canvas')
+const c = canvas.getContext('2d')
+canvas.width=1024;
+canvas.height=576;
+
+class Player {
+    constructor(position)
+    {
+
+        this.position = position
+        this.velocity ={x:0,y:1,}
+        this.height=100
+        this.width=100
+    }
+    draw()
+    {
+        c.fillStyle='red'
+        c.fillRect(this.position.x,this.position.y,this.width,this.height)
+
+    }
+    update()
+    {
+        this.draw()
+        this.position.x+=this.velocity.x
+        this.position.y+=this.velocity.y
+
+        // this.velocity.x=this.velocity.x*0.9
+
+        if(this.position.y+this.height+this.velocity.y<canvas.height){
+
+        this.velocity.y+=0.4
+        }
+        else{this.velocity.y=0}
+
+    }
+}
+const player= new Player({x:0,y:0,})
+const player2=new Player({x:200,y:200})
+
+const keys={
+    d:{
+        pressed:false,
+    },
+    a:{
+        pressed:false,
+    },
+
+
+}
+function animate(){
+    window.requestAnimationFrame(animate)
+    c.fillStyle='white'
+    c.fillRect(0,0,canvas.width,canvas.height)
+
+
+    player.update()
+    player2.update()
+
+    player.velocity.x=0
+
+    if(keys.d.pressed) player.velocity.x=10
+        else if(keys.a.pressed) player.velocity.x=-10
+
+    // c.fillStyle='red'
+    // c.fillRect(100,y,100,100)
+    // y++
+
+}
+
+
+animate()
+
+window.addEventListener('keydown',(event) =>{
+    switch(event.key)
+    {case 'd':
+        // player.velocity.x=25
+        keys.d.pressed=true
+        // document.getElementById("random").innerHTML='yo'
+        console.log('hi')
+    break
+    case 'a':
+        // player.velocity.x=-25
+        keys.a.pressed=true
+        // document.getElementById("random").innerHTML='yo'
+        console.log('hi')
+    break
+    case 'w':
+        player.velocity.y=-15
+        // document.getElementById("random").innerHTML='yo'
+        console.log('hi')
+    break
+}
+    
+})
+
+window.addEventListener('keyup',(event) =>{
+    switch(event.key)
+    {case 'd':
+        // player.velocity.x=25
+        keys.d.pressed=false
+        // document.getElementById("random").innerHTML='yo'
+        console.log('hi')
+    break
+    case 'a':
+        // player.velocity.x=-25
+        keys.a.pressed=false
+        // document.getElementById("random").innerHTML='yo'
+        console.log('hi')
+    break
+}
+    
+})
+
+
 // function finder(){
 // document.getElementById("time").innerHTML="ok"+Date();
 // }
