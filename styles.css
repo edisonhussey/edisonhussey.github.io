@@ -13,7 +13,9 @@
 body,html{
     overflow: hidden;
 }
-#movingImage {
+
+#movingImage, #cave {
+
     position: absolute;
     height: 100px;
     width: 100px;
@@ -36,4 +38,11 @@ body,html{
 
 #time{
     font-size: 80px;
+}
+
+.canvas{
+    /* transform: rotate(10deg); */
+    margin-left: 300px;
+    outline: 10px solid black;
+
 }
